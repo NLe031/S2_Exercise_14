@@ -26,3 +26,42 @@
 
 
 */
+//generate an outline based on h1-h6 headings in the source document
+window.addEventListener("load", makeOutline);
+
+function makeOutline() {
+      //location of the document outline
+      var outline = document.getElementById("outline");
+
+      //source document for the outline
+      var source = document.getElementById("doc");
+
+      var mainHeading = document.createElement("h1");
+
+      var outlineList = document.createElement("ol");
+
+      var headingText = document.createTextNode("Outline");
+
+      //append the text node to the main heading
+      mainHeading.appendChild(headingText);
+      outline.appendChild(mainHeading);
+      outline.appendChild(outlineList);
+
+      createList(source, outlineList);
+}
+
+function createList(source, outlineList) {
+      //headings for the outline
+      var headings = ["H1", "H2", "H3", "H4", "H5", "H6"]
+      //loop through all the child nodes of source article until no child nodes are left
+      for (var n = source.firstChild; n != null; n = n.nextSibling) {
+            //examine only article headings
+            var headLevel = headings.indexOf(n.nodeName);
+
+            if (headLevel !== -1) {
+                  var listElem = document.createElement("li");
+                  listElem.innerHTML = n.firstChild.nodeValue;
+                  outlineList.appendChild(listElem);
+            }
+      }
+}
